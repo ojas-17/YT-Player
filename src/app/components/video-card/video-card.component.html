@@ -1,0 +1,22 @@
+<!-- <div class="w-50 d-flex">
+    <div>
+        <img [src]="video?.snippet?.thumbnails?.medium?.url" [alt]="video?.snippet?.title">
+        <iframe width="560" height="315" 
+        [src]="safeUrl" 
+        frameborder="0" allowfullscreen>
+      </iframe>
+    </div>
+    <div>
+        <div class="d-flex flex-column">
+            <h4>{{ video?.snippet?.title }}</h4>
+        </div>
+    </div>
+</div> -->
+
+<div class="video-wrapper">
+    <div>
+        <img [src]="video?.snippet?.thumbnails?.medium?.url" alt="">
+    </div>
+    <div id="yt-player"></div>
+    <div> {{video?.snippet?.title}} </div>
+</div>
