@@ -74,6 +74,9 @@ export class VideoPageComponent {
     if (this.currentIndex + 1 < this.videos.length) {
       this.currentIndex++;
     }
+    else {
+      this.currentIndex = 0;
+    }
   };
 
   handleChange(index: number) {
