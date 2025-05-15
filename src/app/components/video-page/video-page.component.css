@@ -1,0 +1,21 @@
+.responsive-width {
+  width: 100%;
+}
+
+@media (min-width: 576px) {
+  .responsive-width {
+    width: 75%;
+  }
+}
+
+/* @media (min-width: 768px) {
+  .responsive-width {
+    width: 75%;
+  }
+} */
+
+@media (min-width: 992px) {
+  .responsive-width {
+    width: 50%;
+  }
+}

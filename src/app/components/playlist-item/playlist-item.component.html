@@ -1,0 +1,15 @@
+<div class="main-div d-flex flex flex-row gap-3 my-2" (click)="handleClick()" [style]="currentIndex === index ? 'cursor: pointer; background-color: rgb(15, 15, 20);' : 'cursor: pointer;' ">
+    <div class="w-25">
+        <img class="w-100" [src]="video?.snippet?.thumbnails?.medium?.url" alt="">
+    </div>
+
+    <div class="w-75 d-flex flex-column justify-content-between pb-2">
+        <div class="truncate-2-lines">
+            {{video?.snippet?.title}}
+        </div>
+
+        <div>
+            {{video?.snippet?.publishedAt | date:'longDate'}}
+        </div>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 declare var YT: any;
@@ -5,15 +6,16 @@ declare var YT: any;
 @Component({
   selector: 'app-video-card',
   standalone: true,
+  imports: [DatePipe],
   templateUrl: './video-card.component.html',
   styleUrls: ['./video-card.component.css']
 })
 export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() video: any;
-  @Input() onVideoEnd: () => void = () => {};
+  @Input() onVideoEnd: () => void = () => { };
   player: any;
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef) { }
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -21,7 +23,7 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
         console.warn('Player init skipped — videoId is not available yet.');
         return;
       }
-  
+
       if ((window as any).YT && YT.Player) {
         this.initPlayer();
       } else {
@@ -34,12 +36,12 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const newVideoId = this.video?.snippet?.resourceId?.videoId;
-  
+
     if (!newVideoId) {
       console.warn('Skipping player update — videoId is missing.');
       return;
     }
-  
+
     // If player exists and is fully ready
     if (this.player && typeof this.player.loadVideoById === 'function') {
       this.player.loadVideoById(newVideoId);
@@ -60,6 +62,8 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
 
     this.player = new YT.Player('yt-player', {
       videoId,
+      height: '100%',
+      width: '100%',
       events: {
         onReady: () => {
           console.log('YouTube Player is ready!');
@@ -78,7 +82,7 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
         showinfo: 0
       }
     });
-    
+
   }
 
   ngOnDestroy() {

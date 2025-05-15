@@ -13,10 +13,23 @@
     </div>
 </div> -->
 
-<div class="video-wrapper">
-    <div>
-        <img [src]="video?.snippet?.thumbnails?.medium?.url" alt="">
+<div class="d-flex flex-column gap-4 video-wrapper">
+    <div id="yt-player" class="d-flex yt-player"></div>
+
+    <div class="d-flex flex flex-row gap-3">
+        <div class="w-25">
+            <img class="w-100" [src]="video?.snippet?.thumbnails?.medium?.url" alt="">
+        </div>
+        
+        <div class="w-75 d-flex flex-column justify-content-between pb-2">
+            <div class="truncate-2-lines">
+                {{video?.snippet?.title}}
+            </div>
+
+            <div>
+                {{video?.snippet?.publishedAt | date:'longDate'}}
+            </div>
+        </div>
     </div>
-    <div id="yt-player"></div>
-    <div> {{video?.snippet?.title}} </div>
+
 </div>

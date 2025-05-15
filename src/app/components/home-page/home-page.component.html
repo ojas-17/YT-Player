@@ -1,0 +1,17 @@
+<div class="w-100 d-flex flex-row justify-content-center p-5">
+    <div class="responsive-width d-flex flex-column align-items-center gap-5">
+        <div class="text-center fs-1">
+            YT Player
+        </div>
+
+        <div class="w-100 d-flex flex-row">
+            <div class="w-100">
+                <input type="text" [(ngModel)]="url" placeholder="Playlist URL">
+            </div>
+
+            <div (click)="handleSearch()" class="h-100 d-flex flex-row align-items-center px-2" style="cursor: pointer; background-color: rgb(15, 15, 20); border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
+                <i class="fa-solid fa-magnifying-glass fs-3"></i>
+            </div>
+        </div>
+    </div>
+</div>

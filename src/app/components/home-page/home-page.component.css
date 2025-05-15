@@ -1,0 +1,60 @@
+input {
+    width: 100%;
+    height: 40px;
+    background-color: rgb(15, 15, 20);
+    color: white;
+    font-size: 25px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: none;
+    outline: none;
+    padding-left: 12px;
+}
+
+
+.responsive-width {
+  width: 100%;
+  min-height: 70vh;
+}
+
+@media (min-width: 576px) {
+  .responsive-width {
+    width: 75%;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-width {
+    width: 60%;
+  }
+}
+
+@media (min-width: 992px) {
+  .responsive-width {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .responsive-width {
+    width: 40%;
+  }
+}
+
+/* @media (min-width: 1400px) {
+  .responsive-width {
+    width: 30%;
+  }
+} */
+
+@media (min-width: 1600px) {
+  .responsive-width {
+    width: 30%;
+  }
+}
+
+/* @media (min-width: 1800px) {
+  .responsive-width {
+    width: 20%;
+  }
+} */

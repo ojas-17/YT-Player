@@ -7,14 +7,16 @@ import { environment } from '../../environments/environment';
 })
 export class ApiService {
 
-  maxResults = 10;
-  baseUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${environment.playlistId}&maxResults=${this.maxResults}&key=${environment.apiKey}`
+  maxResults = 100;
 
-  constructor(private http:HttpClient) {
-    
-  }
+  constructor(private http:HttpClient) { }
 
-  getVideos() {
-    return this.http.get(this.baseUrl);
+  getVideos(playlistId: string, pageToken: string) {
+    const baseUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=${this.maxResults}&key=${environment.apiKey}`
+    let url = baseUrl;
+    if(pageToken) {
+      url += `&pageToken=${pageToken}`;
+    }
+    return this.http.get(url);
   }
 }
