@@ -12,6 +12,7 @@ declare var YT: any;
 })
 export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() video: any;
+  @Input() playlistId = "";
   @Input() onVideoEnd: () => void = () => { };
   player: any;
 
@@ -75,6 +76,8 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
         }
       },
       playerVars: {
+        listType: 'playlist',
+        list: this.playlistId,
         autoplay: 1,
         mute: 0,
         controls: 1,
