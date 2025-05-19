@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter, Output } from '@angular/core';
 
 declare var YT: any;
 
@@ -12,8 +12,14 @@ declare var YT: any;
 })
 export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
   @Input() video: any;
+  @Input() videoIndex = 0;
   @Input() playlistId = "";
+  @Input() orderedVideoArray: any[] = [];
+  @Input() videoArray: any[] = [];
   @Input() onVideoEnd: () => void = () => { };
+
+  @Output() emitter = new EventEmitter<number>;
+
   player: any;
 
   constructor(private el: ElementRef) { }
@@ -36,6 +42,8 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    // console.log('check', this.videoIndex);
+
     const newVideoId = this.video?.snippet?.resourceId?.videoId;
 
     if (!newVideoId) {
@@ -44,13 +52,31 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     // If player exists and is fully ready
-    if (this.player && typeof this.player.loadVideoById === 'function') {
-      this.player.loadVideoById(newVideoId);
+    if (this.player && typeof this.player.playVideoAt === 'function') {
+      // this.player.loadVideoById(newVideoId);
+      // this.initPlayer();
+      this.player.playVideoAt(this.getCorrectIndex(this.videoIndex))
+
     }
     // If player isn't ready yet, reinit it
     else if ((window as any).YT && YT.Player) {
       this.initPlayer();
+      // this.player.playVideoAt(this.videoIndex)
     }
+  }
+
+  getCorrectIndex(index: number): number {
+    let video = this.videoArray[index]
+    let correctIndex = this.orderedVideoArray.indexOf(video)
+    
+    return correctIndex
+  }
+
+  getReverseCorrectIndex(index: number): number {
+    let video = this.orderedVideoArray[index]
+    let correctIndex = this.videoArray.indexOf(video)
+    
+    return correctIndex
   }
 
   initPlayer() {
@@ -68,8 +94,26 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
       events: {
         onReady: () => {
           console.log('YouTube Player is ready!');
+          this.player.playVideoAt(this.videoIndex);
         },
         onStateChange: (event: any) => {
+          if (event.data === YT.PlayerState.PLAYING) {
+            const currentIndex = this.player.getPlaylistIndex?.();
+            const currentVideoId = this.player.getVideoData().video_id;
+            // console.log('Now playing index:', currentIndex, 'videoId:', currentVideoId);
+            console.log(this.getCorrectIndex(this.videoIndex), currentIndex);
+            if(currentIndex === this.getCorrectIndex(this.videoIndex) + 1) {
+              this.emitter.emit(this.videoIndex + 1);
+            }
+            else if(currentIndex === this.getCorrectIndex(this.videoIndex) - 1) {
+              this.emitter.emit(this.videoIndex - 1);
+            }
+            else {
+              // this.videoIndex = this.getReverseCorrectIndex(currentIndex);
+              this.emitter.emit(this.getReverseCorrectIndex(currentIndex));
+            }
+          }
+
           if (event.data === YT.PlayerState.ENDED) {
             this.onVideoEnd?.();
           }
@@ -78,11 +122,12 @@ export class VideoCardComponent implements OnInit, OnDestroy, OnChanges {
       playerVars: {
         listType: 'playlist',
         list: this.playlistId,
+        // index: this.videoIndex,
         autoplay: 1,
         mute: 0,
         controls: 1,
         rel: 0,
-        showinfo: 0
+        showinfo: 0,
       }
     });
 

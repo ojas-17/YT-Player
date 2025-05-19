@@ -1,7 +1,7 @@
-<div class="w-100 d-flex flex-row justify-content-center px-4 px-lg-5 py-5">
+<div class="w-100 d-flex flex-row justify-content-center px-2 px-lg-5 py-5">
     <div class="responsive-width d-flex flex-column gap-5">
 
-        <app-video-card [video]="videos[currentIndex]" [onVideoEnd]="handleEnd" [playlistId]="playlistId"></app-video-card>
+        <app-video-card [video]="videos[currentIndex]" [onVideoEnd]="handleEnd" [playlistId]="playlistId" [videoIndex]="currentIndex" [orderedVideoArray]="orderedVideos" [videoArray]="videos" (emitter)="handleChange($event)"></app-video-card>
 
         <div class="d-flex flex-column gap-3">
             <div class="d-flex flex-row justify-content-center fs-2 gap-3">

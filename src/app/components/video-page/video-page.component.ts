@@ -80,6 +80,8 @@ export class VideoPageComponent {
   };
 
   handleChange(index: number) {
+    // console.log(index);
+    
     this.currentIndex = index
   }
 
